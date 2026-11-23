@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const api = axios.create({ baseURL: '/api' });
+// En desarrollo Vite reenvía /api al backend local. Publicado (p. ej. Netlify) se define VITE_API_URL con la dirección del backend.
+const api = axios.create({ baseURL: `${(import.meta.env.VITE_API_URL || '').replace(/\/+$/, '')}/api` });
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');

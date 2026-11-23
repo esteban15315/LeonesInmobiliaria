@@ -1,0 +1,25 @@
+# Render (https://render.com): publica el backend (Express). La base de datos PostGIS va aparte (p. ej. Neon): ver DESPLIEGUE.md.
+services:
+  - type: web
+    name: geovisor-api
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: yarn install --frozen-lockfile
+    startCommand: yarn start
+    healthCheckPath: /api/poligonos/registrados
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"                   # un proxy (el de Render) delante de la app: necesario para el límite de uso por IP
+      - key: OFERTAS_SOLO_PREDIOS
+        value: "false"               # "true" = el oferente solo puede elegir un lote del catastro (no dibujar a mano)
+      - key: DATABASE_URL
+        sync: false                  # cadena de conexión de Neon (con ?sslmode=require)
+      - key: JWT_SECRET
+        generateValue: true          # clave de firma de las sesiones, generada por Render
+      - key: CORS_ORIGIN
+        sync: false                  # dirección del frontend en Netlify, p. ej. https://mi-geovisor.netlify.app

@@ -1,0 +1,19 @@
+# Netlify publishes only the frontend (React + Vite, built with Yarn).
+# The backend (Express) and the PostGIS database are hosted elsewhere — see DESPLIEGUE.md.
+# Set VITE_MAPBOX_TOKEN and VITE_API_URL (backend URL, without /api) in the Netlify environment variables.
+[build]
+  base = "frontend"
+  # Install dependencies first so the build also works where no separate install step runs (e.g. CLI deploys).
+  command = "yarn install --frozen-lockfile && yarn build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # Cypress is only used for local end-to-end tests; skip downloading its large binary during installs.
+  CYPRESS_INSTALL_BINARY = "0"
+
+# Single-page app: routes like /panel or /ofrecer must serve index.html on reload.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

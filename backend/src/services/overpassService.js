@@ -58,7 +58,9 @@ async function consultarEn(url, consulta, { timeoutMs, reintentos, esperaMs, use
       ultimo = new Error(`Overpass respondió ${res.status}`);
       if (!reintentable(res.status)) break;
     } catch (e) {
-      console.error(`Overpass ${url} falló: ${e.message}`);
+      // «fetch failed» no dice nada: la causa real (ECONNRESET, ENOTFOUND, ETIMEDOUT, certificado…) viene en e.cause.
+      const causa = e.cause ? ` [${e.cause.code || e.cause.name || ''} ${e.cause.message || ''}]`.replace(/\s+\]/, ']') : '';
+      console.error(`Overpass ${url} falló: ${e.message}${causa}`);
       ultimo = e;
     }
   }

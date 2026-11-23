@@ -43,7 +43,7 @@ Orden recomendado: **1) Neon → 2) Render → 3) Netlify → 4) volver a Render
 
 ## 3. Frontend en Netlify
 
-1. Crea una cuenta en <https://netlify.com> → **Add new site → Import from Git** y elige el repositorio. `frontend/netlify.toml` ya trae la configuración (base `frontend`, comando `yarn build`, carpeta `dist`, reglas para que `/panel` y `/ofrecer` funcionen al recargar).
+1. Crea una cuenta en <https://netlify.com> → **Add new site → Import from Git** y elige el repositorio. `netlify.toml` (en la raíz del repositorio) ya trae la configuración (base `frontend`, comando `yarn install --frozen-lockfile && yarn build`, carpeta `dist`, reglas para que `/panel` y `/ofrecer` funcionen al recargar).
 2. En **Site configuration → Environment variables** agrega:
    - `VITE_MAPBOX_TOKEN` = tu token público de Mapbox.
    - `VITE_API_URL` = la dirección de Render **sin `/api`** (p. ej. `https://geovisor-api.onrender.com`).
